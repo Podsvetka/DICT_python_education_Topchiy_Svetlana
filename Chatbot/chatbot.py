@@ -25,3 +25,7 @@ while x != 2:
     x = int(input())
     if x == 2:
         print ("Completed, have a nice day!")
+else:
+        print ("Please, try again.")
+print ("Congratulations, have a nice day!")
+
