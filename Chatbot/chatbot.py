@@ -31,7 +31,7 @@ def test():
         x = int(input())
         if x == 2:
             print ("Completed, have a nice day!")
-    else:
+        else:
             print ("Please, try again.")
 welcome()
 guess_age()
