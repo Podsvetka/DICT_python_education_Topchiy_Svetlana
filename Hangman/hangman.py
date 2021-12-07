@@ -16,7 +16,10 @@ while True:
     writeLetter = input("Input a letter: > ")
 
     if len(writeLetter) > 1 or len(writeLetter) == 0:
-        print("You have to write one symbol ")
+        print("You should input a single letter ")
+        continue
+    elif writeLetter.isupper() :
+        print('Please enter a lowercase English letter')
         continue
 
     if writeLetter in listLetter :
@@ -26,11 +29,12 @@ while True:
             if selectWord[i] == writeLetter :
                 help[i] = writeLetter
     else :
-        guesses -= 1
+
         if writeLetter in listUseLetter:
-            print("No improvements")
+            print("You've already guessed this letter.")
         else:
             print("That letter doesn't appear in the word")
+            guesses -= 1
 
     if writeLetter in selectWord :
         listUseLetter.add(writeLetter)
