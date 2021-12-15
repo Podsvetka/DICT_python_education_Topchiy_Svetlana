@@ -15,5 +15,11 @@ for i in range(numFriends):
     name = input(">")
     friends[name] = 0
 
-print(friends)
+print("Enter the total amount:")
+amount = int(input(">"))
+bill = round(amount/numFriends, 2)
+for key in friends:
+    friends[key] = bill
 
+
+print(friends)
