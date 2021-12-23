@@ -1,3 +1,4 @@
+import constant as constant
 while True:
     while True:
         C_1 = list(input("Please, input line and columns matrix A: \n"))
@@ -31,15 +32,11 @@ while True:
         else:
             print("Please, try again")
 
-    if column_1 == column_2 and line_1 == line_2:
-        result = []
+            result = []
         for i in range(column_1):
             result.append([0]*line_2)
         for i in range(len(matrix_1)):
             for j in range(len(matrix_1[0])):
-                result[i][j] = matrix_1[i][j] + matrix_2[i][j]
+                result[i][j] = matrix_1[i][j]  * constant
         for matrix_result in range(len(result)):
             print(*result[matrix_result])
-            break
-    else:
-        print("error")
