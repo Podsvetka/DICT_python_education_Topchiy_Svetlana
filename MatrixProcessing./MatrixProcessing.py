@@ -1,6 +1,7 @@
 import ast
 import itertools
 import copy
+from math import floor, ceil
 
 def matrix_input(range):
     line = range
@@ -24,15 +25,23 @@ def matrix_sum(m1, m2, range, col):
     for i in range(line):
         temp = []
         for j in range(columns):
-            temp.append(m1[i][j] + m2[i][j])
-        append.append(temp)
-    return append
+            if result[i][j] == -0.0:
+                print(0, end=" ")
+            elif type(result[i][j]) == int or result[i][j] == 0:
+                print(result[i][j], end=" ")
+            elif type(result[i][j]) == float and result[i][j] != 0:
+                if result[i][j] > 0:
+                    print(floor(result[i][j] * 100) / 100.0, end=" ")
+                else:
+                    print(ceil(result[i][j] * 100) / 100.0, end=" ")
+    print()
+
 def matrix_number(m1, number_m):
     multiply = []
     for i in range(len(a)):
         temp = []
         for j in range(len(a[0])):
-            temp.append(float(m1[i][j]) * float(number_m))
+            temp.append(m1[i][j] * number_m)
         multiply.append(temp)
     return multiply
 def matrix_element(l1, l2):
@@ -51,13 +60,12 @@ def matrix_two(m1, m2):
             value[i][j] = value_range
     return value
 
-def transe_main_diag(matrix):
-    result = list(itertools.zip_longest(*matrix))
-    return result
+def transe_main_diag(math):
+    return list(itertools.zip_longest(*math))
 
 
-def transe_side_diag(matrix):
-    new_matrix = [[matrix[j][i] for j in range(len(matrix))] for i in range(len(matrix[0]) - 1, -1, -1)]
+def transe_side_diag(math):
+    new_matrix = [[math[j][i] for j in range(len(math))] for i in range(len(math[0]) - 1, -1, -1)]
     result = []
     for i in range(len(new_matrix[0])):
         new_matrix[i] = new_matrix[i][::-1]
@@ -65,37 +73,47 @@ def transe_side_diag(matrix):
     return result
 
 
-def transe_ver_line(matrix):
-    new_matrix = [[matrix[j][i] for j in range(len(matrix))] for i in range(len(matrix[0]) - 1, -1, -1)]
+def transe_ver_line(math):
+    new_matrix = [[math[j][i] for j in range(len(math))] for i in range(len(math[0]) - 1, -1, -1)]
     result = list(itertools.zip_longest(*new_matrix))
     return result
 
 
-def transe_hor_line(matrix):
-    result = list(itertools.zip_longest(*matrix[::-1]))
+def transe_hor_line(math):
+    result = list(itertools.zip_longest(*math[::-1]))
     result = list(itertools.zip_longest(*result))
     return result
 
-def min(matrix, i, j):
-    mincopy = copy.deepcopy(matrix)
-    del mincopy[i]
-    for i in range(len(matrix[0]) - 1):
-        del mincopy[i][j]
-    return mincopy
+def min(matx_min, i, j):
+        return [row[:j] + row[j + 1:] for row in (matx_min[:i] + matx_min[i + 1:])]
 
 
-def det(matrix):
-    height = len(matrix)
-    weight = len(matrix[0])
-    if height != weight:
-        return None
-    if weight == 1:
-        return matrix[0][0]
-    signum = 1
+def min_transe(math):
+    determ = det(math)
+    if len(math) == 2:
+        return [[math[1][1] / determ, -1 * math[0][1] / determ],
+                [-1 * math[1][0] / determ, math[0][0] / determ]]
+    cofactors = []
+    for r in range(len(math)):
+        case = []
+        for j in range(len(math)):
+            minored = min(math, r, j)
+            case.append(((-1) ** (r + j)) * det(minored))
+        cofactors.append(case)
+    cofactors = transe_main_diag(cofactors)
+    for i in range(len(cofactors)):
+        cofactors[i] = list(cofactors[i])
+    for r in range(len(cofactors)):
+        for j in range(len(cofactors)):
+            cofactors[r][j] = int(cofactors[r][j]) / determ
+    return cofactors
+
+def det(matx_det):
+    if len(matx_det) == 2:
+        return matx_det[0][0] * matx_det[1][1] - matx_det[0][1] * matx_det[1][0]
     determ = 0
-    for j in range(weight):
-        determ += matrix[0][j]*signum*det(min(matrix, 0, j))
-        signum *= -1
+   for i in range(len(matx_det)):
+        determ += ((-1) ** i) * matx_det[0][i] * det(min(matx_det, 0, i))
     return determ
 
 while True:
@@ -104,6 +122,7 @@ while True:
     3. Multiply matrices
     4. Transpose matrix
     5. Calculate a determinant
+    6. Inverse matrix
 0. Exit""")
     choice = int(input("Your choice:"))
     choice = int(input('Your choice:'))
@@ -178,5 +197,17 @@ while True:
             c = det(a)
             print('The result is:')
             print(c)
+        elif choice == 6:
+            matrix, n = map(int, input("Enter size of matrix:").split())
+            print('Enter matrix:')
+            a = matx_input(matrix)
+            c = det(a)
+            print(c)
+            if c != 0:
+                d = min_transe(a)
+                print('The result is:')
+                matrix_print(d, matrix, n)
+            else:
+                print("This matrix doesn't have an inverse.")
         elif choice == 0:
             break
