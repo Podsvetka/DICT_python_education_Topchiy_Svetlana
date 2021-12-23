@@ -1,42 +1,99 @@
-import constant as constant
+import ast
+
+def matrix_input(range):
+    line = range
+    matrix = []
+    for i in range(line):
+        t = []
+        for j in input().split():
+            if j != " ":
+                t.append(ast.literal_eval(j))
+        matrix.append(t)
+    return matrix
+
+
+def matrix_print(result, range, column):
+    line, columns = range, column
+    for i in range(line):
+        for j in range(columns):
+            print(result[i][j], end=' ')
+        print()
+
+
+def matrix_sum(m1, m2, range, col):
+    line, columns = range, col
+    append = []
+    for i in range(line):
+        temp = []
+        for j in range(columns):
+            temp.append(m1[i][j] + m2[i][j])
+        append.append(temp)
+    return append
+
+
+def matrix_number(m1, number_m):
+    multiply = []
+    for i in range(len(a)):
+        temp = []
+        for j in range(len(a[0])):
+            temp.append(float(m1[i][j]) * float(number_m))
+        multiply.append(temp)
+    return multiply
+
+
+def matrix_element(l1, l2):
+    result = 0
+    for i in range(len(l1)):
+        result += l1[i] * l2[i]
+    return result
+
+
+def matrix_two(m1, m2):
+    value = [[0 for range in range(len(m2[0]))] for column in range(len(m1))]
+    print(value)
+    for i in range(len(m1)):
+        l1 = m1[i]
+        for j in range(len(m2[0])):
+            l2 = [m2[x][j] for x in range(len(m2))]
+            value_range = matrix_element(l1, l2)
+            value[i][j] = value_range
+    return value
 while True:
-    while True:
-        C_1 = list(input("Please, input line and columns matrix A: \n"))
-        column_1 = int(C_1[0])
-        line_1 = int(C_1[2])
-        matrix_1 = []
-        line_true_a = 0
-        for i in range(column_1):
-            matrix_1.append(list(map(int, input().split())))
-        for height in range(len(matrix_1)):
-            if len(matrix_1[height]) == line_1:
-                line_true_a += 1
-        if line_true_a == column_1:
-            break
+    print('''1. Add matrices
+    2. Multiply matrix by a constant
+    3. Multiply matrices
+    0. Exit
+    ''', end='')
+    choice = int(input('Your choice:'))
+    if choice == 1:
+        m, n = map(int, input('Enter size of first matrix:').split())
+        print('Enter first matrix:')
+        a = matrix_input(m)
+        p, q = map(int, input('Enter size of second matrix:').split())
+        print('Enter second matrix:')
+        b = matrix_input(p)
+        if m != p and n != q:
+            print('The operation cannot be performed.')
         else:
-            print("Please, try again")
-
-    while True:
-        C_2 = list(input("Please, input line and columns matrix B: \n"))
-        column_2 = int(C_2[0])
-        line_2 = int(C_2[2])
-        matrix_2 = []
-        line_true_b = 0
-        for i in range(column_2):
-            matrix_2.append(list(map(int, input().split())))
-        for height in range(len(matrix_2)):
-            if len(matrix_2[height]) == line_2:
-                line_true_b += 1
-        if line_true_b == column_2:
-            break
-        else:
-            print("Please, try again")
-
-            result = []
-        for i in range(column_1):
-            result.append([0]*line_2)
-        for i in range(len(matrix_1)):
-            for j in range(len(matrix_1[0])):
-                result[i][j] = matrix_1[i][j]  * constant
-        for matrix_result in range(len(result)):
-            print(*result[matrix_result])
+            c = matrix_sum(a, b, m, n)
+            matrix_print(c, m, n)
+    elif choice == 2:
+        m, n = map(int, input('Enter size of matrix:').split())
+        print('Enter matrix:')
+        a = matrix_input(m)
+        number = float(input('Enter constant:'))
+        c = matrix_number(a, number)
+        print('The result is:')
+        matrix_print(c, m, n)
+    elif choice == 3:
+        m, n = map(int, input('Enter size of first matrix:').split())
+        print('Enter first matrix:')
+        a = matrix_input(m)
+        p, q = map(int, input('Enter size of second matrix:').split())
+        print('Enter second matrix:')
+        b = matrix_input(p)
+        c = matrix_two(a, b)
+        print('The result is:')
+        matrix_print(c, m, q)
+    elif choice == 0:
+        break
