@@ -27,19 +27,28 @@ def dominoes():
         player.remove(m)
     elif m in computer:
         computer.remove(m)
-    print(f"Stock pieces {[stock]}")
-    print(f"Player pieces {[player]}")
-    print(f"Computer pieces {[computer]}")
-    print(f"Domino snake {m}")
+    print(f"""Stock pieces {len(stock)}
+    Computer pieces {len(computer)}
+    {m}
+    Your pieces:
+        """)
+    for i, item in enumerate(player):
+        print(f"{i + 1}: {item}")
+    print("")
     if computer > player:
-        print("Status: Computer")
-    elif player > computer:
-        print("Status: Player")
+        print("Status: Computer is about to make a move. Press Enter to continue...")
+    elif computer < player:
+        input("Status: It's your turn to make a move. Enter your command. ")
+
+
+def interface():
+    print("=" * 70)
 
 
 while True:
-    choice = input("yes?")
-    if choice == "yes":
+    action = input("yes?")
+    if action == "yes":
+        interface()
         dominoes()
     else:
         break
