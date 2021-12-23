@@ -1,5 +1,6 @@
 import ast
 import itertools
+import copy
 
 def matrix_input(range):
     line = range
@@ -75,12 +76,34 @@ def transe_hor_line(matrix):
     result = list(itertools.zip_longest(*result))
     return result
 
+def min(matrix, i, j):
+    mincopy = copy.deepcopy(matrix)
+    del mincopy[i]
+    for i in range(len(matrix[0]) - 1):
+        del mincopy[i][j]
+    return mincopy
+
+
+def det(matrix):
+    height = len(matrix)
+    weight = len(matrix[0])
+    if height != weight:
+        return None
+    if weight == 1:
+        return matrix[0][0]
+    signum = 1
+    determ = 0
+    for j in range(weight):
+        determ += matrix[0][j]*signum*det(min(matrix, 0, j))
+        signum *= -1
+    return determ
 
 while True:
     print("""1. Add matrices
     2. Multiply matrix by a constant
     3. Multiply matrices
     4. Transpose matrix
+    5. Calculate a determinant
 0. Exit""")
     choice = int(input("Your choice:"))
     choice = int(input('Your choice:'))
@@ -148,5 +171,12 @@ while True:
             c = transe_hor_line(a)
             print('The result is:')
             matrix_print(c, m, n)
+        elif choice == 5:
+            m, n = map(int, input("Enter size of matrix:").split())
+            print('Enter matrix:')
+            a = matrix_input(m)
+            c = det(a)
+            print('The result is:')
+            print(c)
         elif choice == 0:
             break
