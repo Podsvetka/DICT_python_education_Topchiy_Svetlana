@@ -1,5 +1,5 @@
 import random
-
+from collections import Counter
 
 def dominoes():
     domino_pieces = [[x, y] for x in range(0, 7) for y in range(0, 7) if x >= y]
@@ -99,6 +99,28 @@ def player_input():
         else:
             print("Incorrect input. Enter number ")
             continue
+
+def logic():
+    a = []
+    for j in list(computer):
+        for x in j:
+            a += [x]
+    b = []
+    for j in list(tier_list):
+        for x in j:
+            b += [x]
+    result = dict(Counter(a + b))
+    new_dict = []
+    for x, j in computer:
+        num = result.get(x) + result.get(j)
+        new_dict.append([[x, j], num])
+    sorted(new_dict, key=lambda y: y[1], reverse=True)
+    computer.clear()
+    for x in new_dict:
+        computer.append(x[0])
+    print(computer)
+    return computer
+
 
 
 def computer_input():
