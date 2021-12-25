@@ -12,6 +12,9 @@ while True:
     if x.get(player) == computer:
         print(f"Well done. The computer chose {computer} and failed")
         continue
+    if player == "exit":
+        print("Bye")
+        break
     else:
-        print("Choose the item!")
+        print("Invalid input")
         continue
