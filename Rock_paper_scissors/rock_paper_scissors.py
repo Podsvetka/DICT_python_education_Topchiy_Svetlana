@@ -1,10 +1,17 @@
-
+import random
 while True:
-    x = {"paper": "scissors", "rock": "paper", "scissors": "rock"}
-    i = str(input("Enter your choice:"))
-    y = x.get(i)
-    if i in x:
-        print(f"Sorry, but the computer chose {y}")
+    x = {"scissors": "paper", "paper": "rock", "rock": "scissors"}
+    player = str(input("Enter your choice:"))
+    computer = random.choice([*x.keys()])
+    if player == computer:
+        print("Draw")
+        continue
+    if player == x.get(computer):
+        print(f"Sorry, but the computer chose {computer}")
+        continue
+    if x.get(player) == computer:
+        print(f"Well done. The computer chose {computer} and failed")
+        continue
     else:
         print("Choose the item!")
         continue
